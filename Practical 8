@@ -1,0 +1,87 @@
+
+# Mini AI Application: Text Classification
+# Sentiment Analysis using Python
+
+print("====================================")
+print("       AI TEXT CLASSIFICATION")
+print("====================================")
+
+# Training dataset
+training_data = {
+    "positive": [
+        "i am happy",
+        "this is good",
+        "i love this",
+        "excellent work",
+        "very nice",
+        "amazing experience",
+        "i feel great",
+        "wonderful day"
+    ],
+
+    "negative": [
+        "i am sad",
+        "this is bad",
+        "i hate this",
+        "poor work",
+        "very boring",
+        "terrible experience",
+        "i feel upset",
+        "worst day"
+    ],
+
+    "neutral": [
+        "this is a book",
+        "i have a pen",
+        "today is monday",
+        "the sky is blue",
+        "this is a table",
+        "i am going home",
+        "it is a normal day"
+    ]
+}
+
+# Function to classify text
+def classify_text(text):
+    words = text.lower().split()
+
+    scores = {
+        "positive": 0,
+        "negative": 0,
+        "neutral": 0
+    }
+
+    # Calculate scores
+    for category in training_data:
+        for sentence in training_data[category]:
+            for word in words:
+                if word in sentence.split():
+                    scores[category] += 1
+
+    # Find category with highest score
+    result = max(scores, key=scores.get)
+
+    # Check if any matching words were found
+    if max(scores.values()) == 0:
+        result = "neutral"
+
+    return result, scores
+
+
+# Main program
+while True:
+    text = input("\nEnter a sentence (or type exit): ")
+
+    if text.lower() == "exit":
+        print("Thank you for using AI Text Classifier!")
+        break
+
+    result, scores = classify_text(text)
+
+    print("\nClassification Result:", result.upper())
+
+    print("Scores:")
+    for category, score in scores.items():
+        print(category.capitalize(), ":", score)
+
+    print("------------------------------------")
